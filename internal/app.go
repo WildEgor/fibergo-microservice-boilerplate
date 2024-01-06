@@ -55,6 +55,7 @@ func NewApp(
 	router.Setup(app)
 
 	log.Info("Application is running on port...")
+
 	return &Server{
 		App:       app,
 		AppConfig: appConfig,
