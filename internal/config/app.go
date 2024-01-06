@@ -2,21 +2,21 @@ package config
 
 import (
 	"github.com/caarlos0/env/v7"
-	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
 )
 
 type AppConfig struct {
+	Name    string `env:"APP_NAME"`
 	Port    string `env:"APP_PORT"`
 	Mode    string `env:"APP_MODE"`
 	GoEnv   string `env:"GO_ENV"`
 	Version string `env:"VERSION"`
 }
 
-func NewAppConfig() *AppConfig {
+func NewAppConfig(c *Configurator) *AppConfig {
 	cfg := AppConfig{}
 
-	if err := godotenv.Load(".env"); err == nil {
+	if err := c.Load(); err == nil {
 		if err := env.Parse(&cfg); err != nil {
 			log.Printf("[AppConfig] %+v\n", err)
 		}

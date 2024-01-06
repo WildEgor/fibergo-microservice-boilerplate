@@ -20,10 +20,15 @@ var AppSet = wire.NewSet(
 	router.RouterSet,
 )
 
+type Server struct {
+	App       *fiber.App
+	AppConfig *config.AppConfig
+}
+
 func NewApp(
 	appConfig *config.AppConfig,
 	router *router.Router,
-) *fiber.App {
+) *Server {
 	app := fiber.New(fiber.Config{
 		ErrorHandler: error_handler.ErrorHandler,
 	})
@@ -50,5 +55,8 @@ func NewApp(
 	router.Setup(app)
 
 	log.Info("Application is running on port...")
-	return app
+	return &Server{
+		App:       app,
+		AppConfig: appConfig,
+	}
 }

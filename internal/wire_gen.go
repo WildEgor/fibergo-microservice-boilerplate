@@ -10,18 +10,18 @@ import (
 	"github.com/WildEgor/fibergo-microservice-boilerplate/internal/config"
 	"github.com/WildEgor/fibergo-microservice-boilerplate/internal/handlers"
 	"github.com/WildEgor/fibergo-microservice-boilerplate/internal/router"
-	"github.com/gofiber/fiber/v2"
 	"github.com/google/wire"
 )
 
 // Injectors from server.go:
 
-func NewServer() (*fiber.App, error) {
-	appConfig := config.NewAppConfig()
+func NewServer() (*Server, error) {
+	configurator := config.NewConfigurator()
+	appConfig := config.NewAppConfig(configurator)
 	healthCheckHandler := handlers.NewHealthCheckHandler(appConfig)
 	routerRouter := router.NewRouter(healthCheckHandler)
-	app := NewApp(appConfig, routerRouter)
-	return app, nil
+	server := NewApp(appConfig, routerRouter)
+	return server, nil
 }
 
 // server.go:
